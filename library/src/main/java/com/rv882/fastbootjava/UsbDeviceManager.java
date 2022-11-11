@@ -102,7 +102,7 @@ public class UsbDeviceManager {
 
 	@SuppressLint("UnspecifiedImmutableFlag")
     public void connectToDevice(@NonNull UsbDevice device) {
-        PendingIntent permissionIntent = PendingIntent.getBroadcast(context.get(), 0, new Intent(ACTION_USB_PERMISSION), 0);
+        PendingIntent permissionIntent = PendingIntent.getBroadcast(context.get(), 0, new Intent(ACTION_USB_PERMISSION), PendingIntent.FLAG_IMMUTABLE);
         if (usbManager.hasPermission(device)) {
             connectToDeviceInternal(device);
         } else {
