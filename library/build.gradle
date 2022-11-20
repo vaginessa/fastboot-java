@@ -1,16 +1,17 @@
 plugins {
     id 'com.android.library'
+    id 'com.vanniktech.maven.publish' version '0.21.0'
 }
 
 android {
-    compileSdkVersion 32
+    compileSdk 33
     buildToolsVersion "32.0.0"
 
     defaultConfig {
-        minSdkVersion 24
-        targetSdkVersion 32
-        versionCode 1
-        versionName "1.0.0"
+        minSdk 24
+        targetSdk 33
+        versionCode Integer.valueOf(project.findProperty("VERSION_CODE"))
+        versionName project.findProperty("VERSION_NAME")
     }
   
     buildTypes {

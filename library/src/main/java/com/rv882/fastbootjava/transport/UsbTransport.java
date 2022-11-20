@@ -8,17 +8,22 @@ import android.hardware.usb.UsbConstants;
 import androidx.annotation.NonNull;
 
 public class UsbTransport implements Transport {
+    
 	@NonNull
 	private UsbInterface fastbootInterface;
+    
 	@NonNull
     private UsbDeviceConnection connection;
+    
     private boolean isConnected = false;
+    
     private UsbEndpoint inEndpoint;
     private UsbEndpoint outEndpoint;
 
 	public UsbTransport(@NonNull UsbInterface fastbootInterface, @NonNull UsbDeviceConnection connection) {
         this.fastbootInterface = fastbootInterface;
         this.connection = connection;
+        
         for (int i = 0; i < fastbootInterface.getEndpointCount(); ++i) {
             UsbEndpoint e1 = fastbootInterface.getEndpoint(i);
             if (e1.getDirection() == UsbConstants.USB_DIR_IN) {

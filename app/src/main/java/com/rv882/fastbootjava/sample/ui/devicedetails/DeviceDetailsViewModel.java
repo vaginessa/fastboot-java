@@ -9,13 +9,38 @@ import com.rv882.fastbootjava.FastbootDeviceManager;
 
 import com.rv882.fastbootjava.sample.data.FastbootDevice;
 
-public class DeviceDetailsViewModel extends ViewModel implements FastbootDeviceManagerListener {
+public class DeviceDetailsViewModel extends ViewModel {
 
-    public MutableLiveData<FastbootDevice> fastbootDevice = new MutableLiveData<>();
-    private FastbootDeviceContext deviceContext = null;
+    public static MutableLiveData<FastbootDevice> fastbootDevice = new MutableLiveData<>();
+    private static FastbootDeviceContext deviceContext = null;
     
-    public DeviceDetailsViewModel() {
-        FastbootDeviceManager.INSTANCE.addFastbootDeviceManagerListener(this);
+    private static FastbootDeviceManagerListener fastbootDeviceManagerListener = new FastbootDeviceManagerListener() {
+        @Override
+        public void onFastbootDeviceAttached(String deviceId) {
+            
+        }
+
+        @Override
+        public void onFastbootDeviceDetached(String deviceId) {
+            FastbootDevice device = fastbootDevice.getValue();
+            if (device != null && device.getDeviceId() != deviceId) {
+                return;
+            }
+            if (deviceContext != null) {
+                deviceContext.close();
+                deviceContext = null;
+            }
+        }
+
+        @Override
+        public void onFastbootDeviceConnected(String deviceId, FastbootDeviceContext deviceContext) {
+            DeviceDetailsViewModel.deviceContext = deviceContext;
+            fastbootDevice.setValue(FastbootDevice.fromDeviceContext(deviceId, deviceContext));
+        }
+    };
+    
+    static {
+        FastbootDeviceManager.INSTANCE.addFastbootDeviceManagerListener(fastbootDeviceManagerListener);
     }
     
     public void connectToDevice(String deviceId) {
@@ -27,31 +52,9 @@ public class DeviceDetailsViewModel extends ViewModel implements FastbootDeviceM
     }
     
     @Override
-    public void onFastbootDeviceAttached(String deviceId) {
-    }
-
-    @Override
-    public void onFastbootDeviceDetached(String deviceId) {
-        FastbootDevice device = fastbootDevice.getValue();
-        if (device != null && device.getDeviceId() != deviceId) {
-            return;
-        }
-        if (deviceContext != null) {
-            deviceContext.close();
-            deviceContext = null;
-        }
-    }
-
-    @Override
-    public void onFastbootDeviceConnected(String deviceId, FastbootDeviceContext deviceContext) {
-        this.deviceContext = deviceContext;
-        fastbootDevice.setValue(FastbootDevice.fromDeviceContext(deviceId, deviceContext));
-    }
-
-    @Override
     protected void onCleared() {
         super.onCleared();
-        FastbootDeviceManager.INSTANCE.removeFastbootDeviceManagerListener(this);
+        FastbootDeviceManager.INSTANCE.removeFastbootDeviceManagerListener(fastbootDeviceManagerListener);
         if (deviceContext != null) {
             deviceContext.close();
             deviceContext = null;

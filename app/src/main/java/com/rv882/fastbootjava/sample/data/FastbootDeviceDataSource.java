@@ -15,37 +15,43 @@ import com.rv882.fastbootjava.FastbootDeviceManagerListener;
 import com.rv882.fastbootjava.FastbootDeviceContext;
 import com.rv882.fastbootjava.FastbootDeviceManager;
 
-public class FastbootDeviceDataSource extends PositionalDataSource<FastbootDevice> implements FastbootDeviceManagerListener {
+public class FastbootDeviceDataSource extends PositionalDataSource<FastbootDevice> {
 
-    public static DataSource.Factory<Integer, FastbootDevice> FACTORY = new DataSource.Factory<Integer, FastbootDevice>() {
-        private FastbootDeviceDataSource lastSource = null;
-        
+    public static DataSource.Factory<Integer, FastbootDevice> FACTORY;
+    private static FastbootDeviceDataSource ss = new FastbootDeviceDataSource();
+    
+    private static FastbootDeviceManagerListener fastbootDeviceManagerListener = new FastbootDeviceManagerListener() {
         @Override
-        public DataSource<Integer, FastbootDevice> create() {
-            if (lastSource != null) {
-                FastbootDeviceManager.INSTANCE.removeFastbootDeviceManagerListener(lastSource);
-            }
-            lastSource = new FastbootDeviceDataSource();
-            return lastSource;
+        public void onFastbootDeviceAttached(String deviceId) {
+            ss.invalidate();
+        }
+
+        @Override
+        public void onFastbootDeviceDetached(String deviceId) {
+            ss.invalidate();
+        }
+
+        @Override
+        public void onFastbootDeviceConnected(String deviceId, FastbootDeviceContext deviceContext) {
+            
         }
     };
-    
-    public FastbootDeviceDataSource() {
-        FastbootDeviceManager.INSTANCE.addFastbootDeviceManagerListener(this);
-    }
-    
-    @Override
-    public void onFastbootDeviceAttached(String deviceId) {
-        invalidate();
-    }
 
-    @Override
-    public void onFastbootDeviceDetached(String deviceId) {
-        invalidate();
-    }
+    static {
+        FACTORY = new DataSource.Factory<Integer, FastbootDevice>() {
+            private FastbootDeviceDataSource lastSource = null;
 
-    @Override
-    public void onFastbootDeviceConnected(String deviceId, FastbootDeviceContext deviceContext) {
+            @Override
+            public DataSource<Integer, FastbootDevice> create() {
+                if (lastSource != null) {
+                    FastbootDeviceManager.INSTANCE.removeFastbootDeviceManagerListener(fastbootDeviceManagerListener);
+                }
+                lastSource = new FastbootDeviceDataSource();
+                return lastSource;
+            }
+        };
+        
+        FastbootDeviceManager.INSTANCE.addFastbootDeviceManagerListener(fastbootDeviceManagerListener);
     }
 
     @Override

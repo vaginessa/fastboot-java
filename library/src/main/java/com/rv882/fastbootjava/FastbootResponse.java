@@ -5,8 +5,10 @@ import java.nio.charset.StandardCharsets;
 import androidx.annotation.NonNull;
 
 public class FastbootResponse {
+    
 	@NonNull
     private static ResponseStatus status;
+    
 	@NonNull
     private static String data;
 	

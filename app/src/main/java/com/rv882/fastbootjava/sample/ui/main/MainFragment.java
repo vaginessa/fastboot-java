@@ -24,20 +24,16 @@ public class MainFragment extends Fragment implements OnFastbootDeviceItemClickL
 
     private MainViewModel viewModel;
     private RecyclerView rvAttachedDevices;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        
-        viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
-    }
-
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.main_fragment, container, false);
+        
         rvAttachedDevices = view.findViewById(R.id.rv_attached_devices);
         rvAttachedDevices.setHasFixedSize(true);
         rvAttachedDevices.setLayoutManager(new LinearLayoutManager(requireContext()));
+        
+        viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
         
         final FastbootDeviceAdapter fastbootDeviceAdapter = new FastbootDeviceAdapter();
         fastbootDeviceAdapter.addOnFastbootDeviceItemClickListener(this);

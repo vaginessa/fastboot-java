@@ -17,9 +17,8 @@ public class DeviceDetailsFragment extends Fragment {
 
     private DeviceDetailsViewModel viewModel;
 
-    private TextView deviceIdTextView;
-    private TextView serialNoTextView;
-
+    private TextView deviceTextView;
+    
     public static DeviceDetailsFragment newInstance(String deviceId) {
         DeviceDetailsFragment fragment = new DeviceDetailsFragment();
         Bundle bundle = new Bundle();
@@ -38,14 +37,20 @@ public class DeviceDetailsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_device_details, container, false);
-        deviceIdTextView = view.findViewById(R.id.tv_device_id);
-        serialNoTextView = view.findViewById(R.id.tv_serial_no);
-
+        
+        deviceTextView = view.findViewById(R.id.tv_device);
+        
         viewModel.fastbootDevice.observe(getViewLifecycleOwner(), new Observer<FastbootDevice>() {
                 @Override
                 public void onChanged(FastbootDevice p1) {
-                    deviceIdTextView.setText("Device Id: " + p1.getDeviceId());
-                    deviceIdTextView.setText("Serial Number: " + p1.getSerialNumber());
+                    if (p1 != null) {
+                        String ddd = "DeviceId: " + p1.getDeviceId();
+                        ddd += '\n';
+                        ddd = "SerialNumber:: " + p1.getSerialNumber();
+                        ddd += '\n';
+                        ddd = "CurrentSlot: " + p1.getCurrentSlot();
+                        deviceTextView.setText(ddd);
+                    }
                 }
             });
         return view;

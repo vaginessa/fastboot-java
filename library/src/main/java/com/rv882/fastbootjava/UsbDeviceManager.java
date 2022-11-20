@@ -19,12 +19,15 @@ import android.hardware.usb.UsbManager;
 import androidx.annotation.NonNull;
 
 public class UsbDeviceManager {
+    
 	private static final String ACTION_USB_PERMISSION = "com.rv882.fastbootjava.USB_PERMISSION";
 
 	@NonNull
     private WeakReference<Context> context;
+    
 	@NonNull
     private List<UsbDeviceManagerListener> listeners = new ArrayList<UsbDeviceManagerListener>();
+    
 	@NonNull
     private UsbManager usbManager;
 
@@ -68,7 +71,6 @@ public class UsbDeviceManager {
 
     public UsbDeviceManager(@NonNull WeakReference<Context> context) {
         this.context = context;
-		
         if (context.get() == null) {
 			throw new RuntimeException("context null in UsbDeviceManager");
 		} else {

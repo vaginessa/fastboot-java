@@ -3,6 +3,7 @@ package com.rv882.fastbootjava;
 import androidx.annotation.NonNull;
 
 public class FastbootCommand {
+    
 	@NonNull
 	public static FastbootCommand erase(@NonNull String partition) {
 		return command(String.format("erase:%s", partition));

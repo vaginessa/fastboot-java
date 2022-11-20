@@ -5,17 +5,11 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/tv_device_id"
+        android:id="@+id/tv_device"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:textSize="16dp"
         android:padding="16dp" />
-
-    <TextView
-        android:id="@+id/tv_serial_no"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:textSize="16dp"
-        android:padding="16dp" />
+    
 </LinearLayout>

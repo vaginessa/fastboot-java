@@ -28,16 +28,20 @@ import com.rv882.fastbootjava.transport.Transport;
 import com.rv882.fastbootjava.transport.UsbTransport;
 
 public class FastbootDeviceManager {
+    
     private static final int USB_CLASS = 0xff;
     private static final int USB_SUBCLASS = 0x42;
     private static final int USB_PROTOCOL = 0x03;
 
 	@NonNull
     private static HashMap<String, FastbootDeviceContext> connectedDevices = new HashMap<>();
+    
     @NonNull
 	private static UsbDeviceManager usbDeviceManager = new UsbDeviceManager(new WeakReference<Context>(FastbootJava.getApplicationContext()));
+    
     @NonNull
 	private static List<FastbootDeviceManagerListener> listeners = new ArrayList<>();
+    
 	@NonNull
     public static FastbootDeviceManager INSTANCE = new FastbootDeviceManager();
 

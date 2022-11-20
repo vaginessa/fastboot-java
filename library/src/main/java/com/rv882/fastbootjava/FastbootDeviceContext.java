@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import com.rv882.fastbootjava.transport.Transport;
 
 public class FastbootDeviceContext {
+    
 	private static final int DEFAULT_TIMEOUT = 1000;
 
 	@NonNull
@@ -48,7 +49,9 @@ public class FastbootDeviceContext {
         if (!transport.isConnected()) {
             transport.connect(force);
         }
+        
         transport.send(bytes, timeout);
+        
         byte[] responseBytes = new byte[64];
         transport.receive(responseBytes, timeout);
         return FastbootResponse.fromBytes(responseBytes);

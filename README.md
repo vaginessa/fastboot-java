@@ -1,13 +1,13 @@
 # Fastboot Java
 [![](https://img.shields.io/badge/Minimum%20Sdk-24-00BCD4)](https://github.com/RohitVermaOP/fastboot-java)
-[![](https://jitpack.io/v/RohitVerma882/fastboot-java.svg)](https://jitpack.io/#RohitVerma882/fastboot-java)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.rohitverma882/fastboot-java.svg?label=Maven%20Central)](https://search.maven.org/artifact/io.github.rohitverma882/fastboot-java)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](./LICENSE)
 
 Android library for sending fastboot commands from an Android device to a device running fastboot.
 
 ***Only supports fastboot over USB On-The-Go (OTG) connections.***
 
-#### Original-Source: https://github.com/google/fastboot-mobile
+#### Original-Source: (https://github.com/google/fastboot-mobile)
 
 ## Download
 
@@ -15,7 +15,7 @@ Android library for sending fastboot commands from an Android device to a device
 ```gradle
 allprojects {
     repositories {
-        maven { url 'https://jitpack.io' }
+        mavenCentral()
     }
 }
 ```
@@ -23,7 +23,7 @@ allprojects {
 #### Add to module-level build.gradle
 ```gradle
 dependencies {
-    implementation 'com.github.RohitVerma882:fastboot-java:<letest-version>'
+    implementation 'io.github.rohitverma882:fastboot-java:<letest-version>'
 }
 ```
 
@@ -61,5 +61,5 @@ FastbootDeviceManager.addFastbootDeviceManagerListener(
         }
     });
 
-FastbootDeviceManager.connectToDevice(/* Device ID */ "/dev/bus/usb/001/*");
+FastbootDeviceManager.connectToDevice(/* deviceID */ "/dev/bus/usb/*");
 ```
