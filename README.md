@@ -31,17 +31,17 @@ dependencies {
 #### List Attached Fastboot Devices
 ```java
 // Includes connected devices.
-List<String> deviceIds = FastbootDeviceManager.getAttachedDeviceIds();
+List<String> deviceIds = FastbootDeviceManager.INSTANCE.getAttachedDeviceIds();
 ```
 
 #### List Connected Fastboot Devices
 ```java
-List<String> deviceIds = FastbootDeviceManager.getConnectedDeviceIds();
+List<String> deviceIds = FastbootDeviceManager.INSTANCE.getConnectedDeviceIds();
 ```
 
 #### Connect to a Fastboot Device
 ```java
-FastbootDeviceManager.addFastbootDeviceManagerListener(
+FastbootDeviceManager.INSTANCE.addFastbootDeviceManagerListener(
     new FastbootDeviceManagerListener() {
         @Override
         public void onFastbootDeviceAttached(String deviceId) {
@@ -61,5 +61,5 @@ FastbootDeviceManager.addFastbootDeviceManagerListener(
         }
     });
 
-FastbootDeviceManager.connectToDevice(/* deviceID */ "/dev/bus/usb/*");
+FastbootDeviceManager.INSTANCE.connectToDevice(/* deviceID */ "/dev/bus/usb/*");
 ```
