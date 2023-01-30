@@ -23,7 +23,7 @@ allprojects {
 #### Add to module-level build.gradle
 ```gradle
 dependencies {
-    implementation 'io.github.rohitverma882:fastboot-java:<letest-version>'
+    implementation 'io.github.rohitverma882:fastboot-java:<version>'
 }
 ```
 
